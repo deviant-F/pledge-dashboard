@@ -1,10 +1,13 @@
 import Vue from "vue";
+
 import App from "./App.vue";
-import router from "./router";
+
+import CategoryList from "./components/CategoryList.vue";
 
 Vue.config.productionTip = false;
 
+Vue.component("CategoryList", CategoryList);
+
 new Vue({
-  router,
   render: h => h(App)
 }).$mount("#app");
