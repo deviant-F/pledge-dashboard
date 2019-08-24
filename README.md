@@ -1,34 +1,20 @@
 # pledge-dashboard
+A simple SPA dashboard written in Vue.js & Typescript. User is allowed to filter projects with some criteria and they will get notified once there are new projects coming in or changes occur in that match.
 
-## Project setup
+### Build commands
 ```
+# Project setup
 yarn install
-```
 
-### Compiles and hot-reloads for development
-```
+# Compiles and hot-reloads for development
 yarn run serve
-```
 
-### Compiles and minifies for production
-```
+# Compiles and minifies for production
 yarn run build
-```
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
+# Lints and fixes files
 yarn run lint
-```
 
-### Run your unit tests
-```
+# Run unit tests
 yarn run test:unit
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
