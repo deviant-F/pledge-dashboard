@@ -4,6 +4,7 @@
     <div class="category">{{ categoryName }}</div>
     <div class="info-container">
       <span class="title">{{ name }}</span>
+      <span class="creator">by {{ creator }}</span>
       <span class="blurb">{{ blurb }}</span>
     </div>
     <div class="info-footer">
@@ -35,11 +36,13 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { numberWithCommas } from "../utils/index";
 
 library.add(faClock);
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 export type Tproject = {
-  category: any;
-  main_image: any;
+  category: { name: string };
+  main_image: { url: string };
+  creator: { name: string };
   end_time: number;
   total_pledged: number;
   funding_goal: number;
@@ -56,13 +59,14 @@ const Project = createComponent({
   props: ["project"],
   setup({ project }: Tprops) {
     const {
-      name,
       blurb,
       category,
-      main_image,
+      creator,
       end_time,
-      total_pledged,
-      funding_goal
+      funding_goal,
+      main_image,
+      name,
+      total_pledged
     } = project;
     const dayLeft = computed(() => moment(end_time * 1000).fromNow(true));
     const progessPercentage = computed(() => {
@@ -74,6 +78,7 @@ const Project = createComponent({
       name,
       blurb,
       dayLeft,
+      creator: creator.name,
       progessPercentage,
       total_pledged: numberWithCommas(total_pledged / 100),
       categoryName: category.name,
@@ -109,6 +114,7 @@ export default Project;
   .info-footer {
     padding: 15px;
   }
+
   .title {
     font-size: 18px;
     font-weight: 600;
@@ -116,10 +122,11 @@ export default Project;
     width: inherit;
     color: $black;
     display: block;
+    margin-bottom: 5px;
   }
 
   .blurb {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.1;
     padding: 10px 0;
     display: block;
