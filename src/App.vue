@@ -1,6 +1,8 @@
 <template>
-  <div id="header">
-    header
+  <div id="app">
+    <div id="header">
+      header
+    </div>
     <CategoryList />
     <ProjectList />
   </div>
@@ -10,7 +12,7 @@
 @import "reset-css";
 @import "themes/colors.scss";
 
-#header {
+body {
   font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

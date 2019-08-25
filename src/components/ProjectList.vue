@@ -53,8 +53,7 @@ export default ProjectList;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 0 44px;
-  margin-top: 24px;
-  justify-content: center;
+  margin: 24px auto;
+  width: 780px;
 }
 </style>
