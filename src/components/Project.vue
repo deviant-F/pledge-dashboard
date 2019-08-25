@@ -89,16 +89,8 @@ export default Project;
   border: 1px solid $border;
   box-sizing: border-box;
   width: 250px;
-  margin: 0 5px;
+  margin: 0 5px 20px 5px;
   font-size: 12px;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-
-  &:last-of-type {
-    margin-right: 0;
-  }
 
   img {
     width: 100%;

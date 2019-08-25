@@ -32,6 +32,10 @@ const ProjectList = createComponent({
       const { data } = await fetchProjects();
       data.projects.forEach(prj => {
         projects.value.push(prj);
+        projects.value.push(prj);
+        projects.value.push(prj);
+        projects.value.push(prj);
+        projects.value.push(prj);
       });
     };
 
@@ -48,5 +52,9 @@ export default ProjectList;
 #project-list {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 44px;
+  margin-top: 24px;
+  justify-content: center;
 }
 </style>
