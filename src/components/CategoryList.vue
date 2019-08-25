@@ -13,9 +13,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import VueCompositionApi from "@vue/composition-api";
-import {
+import VueCompositionApi, {
   reactive,
+  ref,
   createComponent,
   onCreated,
   onMounted
@@ -32,29 +32,25 @@ type Category = {
 
 const CategoriesList = createComponent({
   setup() {
-    const state = reactive({
-      categories: [] as Array<Category>
-    });
+    const categories = ref([] as Array<Category>);
 
     onMounted(() => {
       getCategories();
     });
 
     const onClickItem = (id: number) => {
-      console.log(id);
+      console.log(`Category ${id} clicked`);
     };
 
     const getCategories = async () => {
-      const {
-        data: { categories }
-      } = await fetchCategories();
-      categories.forEach((cat: Category) => {
-        state.categories.push(cat);
+      const { data } = await fetchCategories();
+      data.categories.forEach((cat: Category) => {
+        categories.value.push(cat);
       });
     };
 
     return {
-      categories: state.categories,
+      categories,
       onClickItem
     };
   }
@@ -68,6 +64,7 @@ ul {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
+  justify-content: space-around;
   border-top: 1px solid #e8e8e8;
   border-bottom: 1px solid #e8e8e8;
   padding: 15px 24px;

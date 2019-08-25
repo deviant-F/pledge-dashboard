@@ -1,0 +1,180 @@
+<template>
+  <div class="project">
+    <img v-if="imageUrl" :src="imageUrl" />
+    <div class="info-container">
+      <span class="title">{{ name }}</span>
+      <span class="blurb">{{ blurb }}</span>
+    </div>
+    <span class="category">{{ categoryName }}</span>
+    <div class="info-footer">
+      <div class="progress">
+        <span class="raised">${{ total_pledged }}</span> raised
+        <span class="raised-percentage">{{ progessPercentage }}%</span>
+        <div class="progress-bar">
+          <span
+            class="progress-bar-inner"
+            :style="{ width: `${progessPercentage}px` }"
+          ></span>
+        </div>
+      </div>
+      <div class="dayLeft">
+        <font-awesome-icon icon="clock" />
+        {{ dayLeft }} left
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import moment from "moment";
+import VueCompositionApi, {
+  reactive,
+  ref,
+  computed,
+  createComponent
+} from "@vue/composition-api";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+Vue.use(VueCompositionApi);
+
+library.add(faClock);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+type TProject = {
+  blurb: string;
+  id: number;
+  name: string;
+};
+
+const Project = createComponent({
+  props: ["project"],
+  setup(props) {
+    const {
+      name,
+      blurb,
+      category,
+      main_image,
+      end_time,
+      total_pledged,
+      funding_goal
+    } = props.project;
+    const dayLeft = computed(() => moment(end_time * 1000).fromNow(true));
+    const progessPercentage = computed(() => {
+      const percentage = (total_pledged / funding_goal) * 100;
+      return Math.round(percentage);
+    });
+
+    return {
+      name,
+      blurb,
+      dayLeft,
+      progessPercentage,
+      total_pledged: total_pledged / 100,
+      categoryName: category.name,
+      imageUrl: main_image && main_image.url
+    };
+  }
+});
+
+export default Project;
+</script>
+
+<style lang="scss" scoped>
+@import "../themes/colors.scss";
+
+.project {
+  border: 1px solid $border;
+  box-sizing: border-box;
+  width: 250px;
+  margin: 0 5px;
+  font-size: 12px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .info-container {
+    padding: 15px;
+    height: 100px;
+  }
+
+  .info-footer {
+    padding: 10px 15px;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    width: inherit;
+    color: $black;
+    display: block;
+  }
+
+  .blurb {
+    font-size: 14px;
+    line-height: 1.1;
+    padding: 10px 0;
+    display: block;
+  }
+
+  .category,
+  .dayLeft {
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 5px 0;
+  }
+
+  .category {
+    text-transform: uppercase;
+    margin: 0 15px;
+  }
+
+  .raised {
+    font-weight: 600;
+    font-size: 16px;
+    color: $black;
+  }
+  .progress {
+    position: relative;
+  }
+  .raised-percentage {
+    right: 0;
+    position: absolute;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  .dayLeft {
+    margin: 18px 0 5px 0;
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: $progressBase;
+    border-radius: 10px;
+    margin-top: 5px;
+    overflow: hidden;
+
+    .progress-bar-inner {
+      display: block;
+      height: 8px;
+      background-color: $theme;
+    }
+  }
+}
+</style>
