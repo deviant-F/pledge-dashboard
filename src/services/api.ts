@@ -10,6 +10,13 @@ export const fetchCategories = async () => axiosInstance.get("/categories");
 export const fetchFeaturedProjects = async () =>
   axiosInstance.get("/projects/featured/");
 
-//dummy api calls for a list of projects
-export const fetchProjects = async () =>
-  axiosInstance.get("/projects/search?query=egg");
+export const fetchProjects = async (category: string) => {
+  const query = {
+    params: {
+      category_id: category,
+      per_page: 12,
+      page: 1
+    }
+  };
+  return axiosInstance.get("/projects/filter/live_projects/", query);
+};

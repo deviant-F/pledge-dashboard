@@ -1,6 +1,7 @@
 <template>
   <ul v-if="categories.length > 0">
     <li v-on:click="changeCategory(FEATURED)">Featured</li>
+    <li v-on:click="changeCategory('')">All</li>
     <li
       v-for="c in categories"
       v-on:click="changeCategory(c.id)"

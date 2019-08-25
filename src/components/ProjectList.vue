@@ -33,7 +33,7 @@ const ProjectList = createComponent({
         const { data } = await fetchFeaturedProjects();
         projects.value = data.featured_projects;
       } else {
-        const { data } = await fetchProjects();
+        const { data } = await fetchProjects(value);
         projects.value = data.projects;
       }
     });
@@ -43,7 +43,7 @@ const ProjectList = createComponent({
         const { data } = await fetchFeaturedProjects();
         projects.value = data.featured_projects;
       } else {
-        const { data } = await fetchProjects();
+        const { data } = await fetchProjects(category);
         projects.value = data.projects;
       }
     };

@@ -99,6 +99,24 @@ export default Project;
   width: 250px;
   margin: 0 5px 20px 5px;
   font-size: 12px;
+  opacity: 1;
+  animation: fadein 1s;
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
+    transform: translateY(-2px);
+    border: 1px solid $borderHover;
+  }
 
   img {
     width: 100%;
@@ -126,7 +144,7 @@ export default Project;
   }
 
   .blurb {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.1;
     padding: 10px 0;
     display: block;
@@ -148,6 +166,7 @@ export default Project;
   .raised {
     font-weight: 600;
     font-size: 16px;
+    margin-right: 2px;
     color: $black;
   }
   .progress {
