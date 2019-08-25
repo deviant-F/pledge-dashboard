@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <div id="header">
-      header
-    </div>
+    <div id="header"></div>
     <CategoryList />
+    <FilterPanel />
     <ProjectList />
   </div>
 </template>
@@ -17,5 +16,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $textColor;
+}
+
+#header {
+  height: 60px;
 }
 </style>
