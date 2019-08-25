@@ -1,8 +1,9 @@
 <template>
   <ul v-if="categories.length > 0">
+    <li v-on:click="changeCategory(FEATURED)">Featured</li>
     <li
       v-for="c in categories"
-      v-on:click="onClickItem(c.id)"
+      v-on:click="changeCategory(c.id)"
       :key="c.id"
       :cat="c"
     >
@@ -13,16 +14,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import VueCompositionApi, {
-  reactive,
+import {
   ref,
   createComponent,
   onCreated,
   onMounted
 } from "@vue/composition-api";
-import { fetchCategories } from "../services/api";
+import { useActions } from "@u3u/vue-hooks";
 
-Vue.use(VueCompositionApi);
+import { fetchCategories } from "../services/api";
+import { FEATURED } from "../utils/index";
 
 type Category = {
   name: string;
@@ -33,25 +34,21 @@ type Category = {
 const CategoriesList = createComponent({
   setup() {
     const categories = ref([] as Array<Category>);
+    const mutations = useActions(["changeCategory"]);
 
     onMounted(() => {
       getCategories();
     });
 
-    const onClickItem = (id: number) => {
-      console.log(`Category ${id} clicked`);
-    };
-
     const getCategories = async () => {
       const { data } = await fetchCategories();
-      data.categories.forEach((cat: Category) => {
-        categories.value.push(cat);
-      });
+      categories.value = data.categories;
     };
 
     return {
       categories,
-      onClickItem
+      FEATURED,
+      ...mutations
     };
   }
 });

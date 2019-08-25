@@ -7,6 +7,9 @@ const axiosInstance = axios.create({ baseURL });
 
 export const fetchCategories = async () => axiosInstance.get("/categories");
 
+export const fetchFeaturedProjects = async () =>
+  axiosInstance.get("/projects/featured/");
+
 //dummy api calls for a list of projects
 export const fetchProjects = async () =>
   axiosInstance.get("/projects/search?query=egg");

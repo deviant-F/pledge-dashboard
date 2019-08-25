@@ -6,37 +6,46 @@
 
 <script lang="ts">
 import Vue from "vue";
-import VueCompositionApi, {
-  reactive,
-  ref,
+import {
+  computed,
   createComponent,
-  onCreated,
-  onMounted
+  onMounted,
+  onUpdated,
+  ref,
+  watch
 } from "@vue/composition-api";
+import { useState } from "@u3u/vue-hooks";
 
-import Project from "./Project.vue";
-import { fetchProjects } from "../services/api";
+import Project, { Tproject } from "./Project.vue";
+import { fetchFeaturedProjects, fetchProjects } from "../services/api";
 
-Vue.use(VueCompositionApi);
 Vue.component("Project", Project);
 
 const ProjectList = createComponent({
   setup() {
-    const projects = ref([]);
+    const categoryId = useState(["selectedCategory"]).selectedCategory;
+    const projects = ref([] as Array<Tproject>);
 
-    onMounted(() => {
-      getProjects();
+    //listen to changes in categoryId
+    watch(categoryId, async value => {
+      // getProjects is not accessable here
+      if (value === "featured") {
+        const { data } = await fetchFeaturedProjects();
+        projects.value = data.featured_projects;
+      } else {
+        const { data } = await fetchProjects();
+        projects.value = data.projects;
+      }
     });
 
-    const getProjects = async () => {
-      const { data } = await fetchProjects();
-      data.projects.forEach(prj => {
-        projects.value.push(prj);
-        projects.value.push(prj);
-        projects.value.push(prj);
-        projects.value.push(prj);
-        projects.value.push(prj);
-      });
+    const getProjects = async (category: string) => {
+      if (category === "featured") {
+        const { data } = await fetchFeaturedProjects();
+        projects.value = data.featured_projects;
+      } else {
+        const { data } = await fetchProjects();
+        projects.value = data.projects;
+      }
     };
 
     return {

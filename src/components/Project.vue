@@ -1,11 +1,11 @@
 <template>
   <div class="project">
     <img v-if="imageUrl" :src="imageUrl" />
+    <div class="category">{{ categoryName }}</div>
     <div class="info-container">
       <span class="title">{{ name }}</span>
       <span class="blurb">{{ blurb }}</span>
     </div>
-    <span class="category">{{ categoryName }}</span>
     <div class="info-footer">
       <div class="progress">
         <span class="raised">${{ total_pledged }}</span> raised
@@ -28,30 +28,33 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
-import VueCompositionApi, {
-  reactive,
-  ref,
-  computed,
-  createComponent
-} from "@vue/composition-api";
+import { reactive, ref, computed, createComponent } from "@vue/composition-api";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-Vue.use(VueCompositionApi);
+import { numberWithCommas } from "../utils/index";
 
 library.add(faClock);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-type TProject = {
+export type Tproject = {
+  category: any;
+  main_image: any;
+  end_time: number;
+  total_pledged: number;
+  funding_goal: number;
   blurb: string;
   id: number;
   name: string;
 };
 
+type Tprops = {
+  project: Tproject;
+};
+
 const Project = createComponent({
   props: ["project"],
-  setup(props) {
+  setup({ project }: Tprops) {
     const {
       name,
       blurb,
@@ -60,7 +63,7 @@ const Project = createComponent({
       end_time,
       total_pledged,
       funding_goal
-    } = props.project;
+    } = project;
     const dayLeft = computed(() => moment(end_time * 1000).fromNow(true));
     const progessPercentage = computed(() => {
       const percentage = (total_pledged / funding_goal) * 100;
@@ -72,7 +75,7 @@ const Project = createComponent({
       blurb,
       dayLeft,
       progessPercentage,
-      total_pledged: total_pledged / 100,
+      total_pledged: numberWithCommas(total_pledged / 100),
       categoryName: category.name,
       imageUrl: main_image && main_image.url
     };
@@ -99,12 +102,12 @@ export default Project;
   }
 
   .info-container {
-    padding: 15px;
-    height: 100px;
+    padding: 0 15px;
+    height: 160px;
   }
 
   .info-footer {
-    padding: 10px 15px;
+    padding: 15px;
   }
   .title {
     font-size: 18px;
@@ -131,7 +134,8 @@ export default Project;
 
   .category {
     text-transform: uppercase;
-    margin: 0 15px;
+    margin: 10px 0;
+    padding: 0 15px;
   }
 
   .raised {
