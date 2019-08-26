@@ -1,14 +1,9 @@
 <template>
   <ul v-if="categories.length > 0">
-    <li v-on:click="changeCategory(FEATURED)">Featured</li>
-    <li v-on:click="changeCategory('')">All</li>
-    <li
-      v-for="c in categories"
-      v-on:click="changeCategory(c.id)"
-      :key="c.id"
-      :cat="c"
-    >
-      {{ c.name }}
+    <li v-for="c in categories" :key="c.id" :cat="c">
+      <router-link :to="{ name: 'category', params: { id: c.id } }">
+        {{ c.name }}
+      </router-link>
     </li>
   </ul>
 </template>
@@ -35,7 +30,6 @@ type Category = {
 const CategoriesList = createComponent({
   setup() {
     const categories = ref([] as Array<Category>);
-    const mutations = useActions(["changeCategory"]);
 
     onMounted(() => {
       getCategories();
@@ -43,13 +37,16 @@ const CategoriesList = createComponent({
 
     const getCategories = async () => {
       const { data } = await fetchCategories();
-      categories.value = data.categories;
+      categories.value = [
+        { id: "featured", name: "Featured" },
+        { id: "all", name: "All" },
+        ...data.categories
+      ];
     };
 
     return {
       categories,
-      FEATURED,
-      ...mutations
+      FEATURED
     };
   }
 });
@@ -58,18 +55,30 @@ export default CategoriesList;
 </script>
 
 <style lang="scss" scoped>
+@import "../themes/colors.scss";
+
 ul {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-around;
-  border-top: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
   padding: 15px 24px;
 
   li {
     margin: 0 20px;
     cursor: pointer;
+
+    a {
+      text-decoration: none;
+      color: $textColor;
+
+      &:hover {
+        color: $theme;
+        transition: color 0.5s ease-in-out;
+      }
+    }
   }
 }
 </style>
