@@ -14,9 +14,9 @@ export const fetchProjects = async (category: string) => {
   const query = {
     params: {
       category_id: category,
-      per_page: 12,
+      per_page: 10,
       page: 1
     }
   };
-  return axiosInstance.get("/projects/filter/live_projects/", query);
+  return axiosInstance.get("/projects/filter/recently_added/", query);
 };

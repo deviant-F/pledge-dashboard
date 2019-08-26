@@ -26,7 +26,9 @@ const ProjectList = createComponent({
   setup() {
     const categoryId = useState(["selectedCategory"]).selectedCategory;
     const projects = ref([] as Array<Tproject>);
-
+    const validProjects = computed(() => {
+      return projects.value.filter(p => p.funding_goal !== null);
+    });
     //listen to changes in categoryId
     watch(categoryId, async value => {
       // getProjects is not accessable here
@@ -50,7 +52,7 @@ const ProjectList = createComponent({
     };
 
     return {
-      projects
+      projects: validProjects
     };
   }
 });
