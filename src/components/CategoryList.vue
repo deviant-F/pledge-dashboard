@@ -24,7 +24,7 @@ import {
 import { useActions } from "@u3u/vue-hooks";
 
 import { fetchCategories } from "../services/api";
-import { FEATURED } from "../utils/index";
+import { FEATURED } from "../utils/constants";
 
 type Category = {
   name: string;

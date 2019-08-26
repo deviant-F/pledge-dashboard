@@ -33,23 +33,12 @@ import { reactive, ref, computed, createComponent } from "@vue/composition-api";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { numberWithCommas } from "../utils/index";
+import { numberWithCommas } from "../utils/functions";
+import { Tproject } from "../utils/types";
 
 library.add(faClock);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
-
-export type Tproject = {
-  category: { name: string };
-  main_image: { url: string };
-  creator: { name: string };
-  end_time: number;
-  total_pledged: number;
-  funding_goal: number;
-  blurb: string;
-  id: number;
-  name: string;
-};
 
 type Tprops = {
   project: Tproject;

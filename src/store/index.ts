@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex, { MutationTree, ActionTree } from "vuex";
 import { RootState } from "./types";
-import { FEATURED } from "./../utils/index";
+import { FEATURED } from "../utils/constants";
 
 Vue.use(Vuex);
 

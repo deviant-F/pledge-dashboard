@@ -16,8 +16,9 @@ import {
 } from "@vue/composition-api";
 import { useState } from "@u3u/vue-hooks";
 
-import Project, { Tproject } from "./Project.vue";
+import Project from "./Project.vue";
 import { fetchFeaturedProjects, fetchProjects } from "../services/api";
+import { Tproject } from "../utils/types";
 
 Vue.component("Project", Project);
 
