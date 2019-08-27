@@ -1,20 +1,39 @@
 <template>
   <div id="filter-panel">
     Filter projects with
-    <select class="filters" name="goal">
+    <select class="filters" name="goal" @change="onChangeGoal" v-model="goal">
       <option value="0">&lt; $1,000 goal</option>
       <option value="1">$1,000 to $10,000 goal</option>
       <option value="2">$10,000 to $100,000 goal</option>
       <option value="3">$100,000 to $1,000,000 goal</option>
       <option value="4">&gt; $1,000,000 goal</option>
     </select>
-    and at least <input /> % funded.
+    and at least <input v-model="funded" name="funded" /> % funded.
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+import { reactive, ref, createComponent } from "@vue/composition-api";
+
+const FilterPanel = createComponent({
+  setup(props, context) {
+    const funded = ref(50);
+    const goal = ref(2);
+    const onChangeGoal = () => {
+      console.log("clicked filter", goal.value);
+      context.emit("filter", goal.value);
+    };
+
+    return {
+      funded,
+      goal,
+      onChangeGoal
+    };
+  }
+});
+
+export default FilterPanel;
 </script>
 
 <style lang="scss" scoped>

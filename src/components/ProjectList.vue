@@ -42,7 +42,7 @@ const ProjectList = createComponent({
       page.value++;
     };
 
-    //listen to changes in categoryId
+    //listen to changes in categoryId and page
     watch(
       [categoryId, page],
       async ([catVal, pageVal], [prevCat, prevPage]) => {
@@ -54,7 +54,7 @@ const ProjectList = createComponent({
         } else {
           const {
             data: { pagination, projects }
-          } = await fetchProjects(catVal, pageVal);
+          } = await fetchProjects(catVal, pageVal, "");
           response = projects;
           displayLoadButton.value = pagination.total_pages > page.value;
         }

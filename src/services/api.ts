@@ -12,7 +12,8 @@ export const fetchFeaturedProjects = async () =>
 
 export const fetchProjects = async (
   category: string | number,
-  page: number
+  page: string | number,
+  filter: string
 ) => {
   const query = {
     params: {
