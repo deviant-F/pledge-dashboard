@@ -14,7 +14,7 @@
         <div class="progress-bar">
           <span
             class="progress-bar-inner"
-            :style="{ width: `${progessPercentage}px` }"
+            :style="{ width: `${progessPercentage}%` }"
           ></span>
         </div>
       </div>

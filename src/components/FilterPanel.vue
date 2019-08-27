@@ -1,17 +1,14 @@
 <template>
   <div id="filter-panel">
-    <div class="title">Filters</div>
-    <div class="filters-options">
-      <input placeholder="Search for projects" />
-      <div>
-        <div>Funding Goal</div>
-        <div>with<input /> - <input /></div>
-      </div>
-      <div>
-        <div>Progress</div>
-        <div><input /> %</div>
-      </div>
-    </div>
+    Filter projects with
+    <select class="filters" name="goal">
+      <option value="0">&lt; $1,000 goal</option>
+      <option value="1">$1,000 to $10,000 goal</option>
+      <option value="2">$10,000 to $100,000 goal</option>
+      <option value="3">$100,000 to $1,000,000 goal</option>
+      <option value="4">&gt; $1,000,000 goal</option>
+    </select>
+    and at least <input /> % funded.
   </div>
 </template>
 
@@ -24,7 +21,8 @@ export default Vue.extend({});
 @import "../themes/colors.scss";
 
 #filter-panel {
-  padding-bottom: 45px;
+  padding-bottom: 25px;
+  text-align: center;
 
   .title {
     text-transform: uppercase;
@@ -34,17 +32,21 @@ export default Vue.extend({});
 
   .filters-options {
     display: flex;
+    padding: 24px 0;
 
-    > * {
+    .filters {
       width: 33%;
       box-sizing: border-box;
-      // border: 1px solid red;
       margin: 0 5px;
     }
 
-    div input {
-      width: 30px;
-      border-bottom: 2px solid $border;
+    input {
+      width: 45%;
+      border: 0;
+      border-bottom: 1px solid $border;
+      padding: 5px;
+      box-sizing: border-box;
+      margin-top: 10px;
     }
   }
 }
