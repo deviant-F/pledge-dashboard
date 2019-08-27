@@ -9,7 +9,7 @@ export default new Router({
     {
       path: "/category/:id",
       name: "category",
-      component: () => import(/* webpackChunkName: "app" */ "./App.vue")
+      component: () => import("./App.vue")
     }
   ]
 });

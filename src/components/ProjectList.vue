@@ -1,6 +1,10 @@
 <template>
-  <div id="project-list" v-if="projects.length > 0">
-    <project v-for="p in projects" :key="p.id" :project="p" />
+  <div class="page">
+    <FilterPanel />
+    <div id="project-list" v-if="projects.length > 0">
+      <project v-for="p in projects" :key="p.id" :project="p" />
+    </div>
+    <button v-if="displayLoadButton" @click="fetchNext()">Load more</button>
   </div>
 </template>
 
@@ -26,28 +30,47 @@ const ProjectList = createComponent({
   setup() {
     const { route } = useRouter();
     const projects = ref([] as Array<Tproject>);
+    const page = ref(1);
+    const displayLoadButton = ref(false);
 
     const categoryId = computed(() => route.value.params.id);
     const validProjects = computed(() => {
       return projects.value.filter(p => p.funding_goal !== null);
     });
 
-    console.log(route.value);
+    const fetchNext = () => {
+      page.value++;
+    };
 
     //listen to changes in categoryId
-    watch(categoryId, async value => {
-      console.log(value);
-      if (value === "featured") {
-        const { data } = await fetchFeaturedProjects();
-        projects.value = data.featured_projects;
-      } else {
-        const { data } = await fetchProjects(value);
-        projects.value = data.projects;
+    watch(
+      [categoryId, page],
+      async ([catVal, pageVal], [prevCat, prevPage]) => {
+        let response;
+
+        if (catVal === "featured") {
+          const { data } = await fetchFeaturedProjects();
+          response = data.featured_projects;
+        } else {
+          const {
+            data: { pagination, projects }
+          } = await fetchProjects(catVal, pageVal);
+          response = projects;
+          displayLoadButton.value = pagination.total_pages > page.value;
+        }
+
+        if (pageVal > prevPage) {
+          projects.value = projects.value.concat(response);
+        } else {
+          projects.value = response;
+        }
       }
-    });
+    );
 
     return {
-      projects: validProjects
+      projects: validProjects,
+      displayLoadButton,
+      fetchNext
     };
   }
 });
@@ -56,11 +79,26 @@ export default ProjectList;
 </script>
 
 <style lang="scss" scoped>
+@import "../themes/colors.scss";
+
+.page {
+  margin: 24px auto;
+  width: 780px;
+}
 #project-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 24px auto;
-  width: 780px;
+}
+
+button {
+  background-color: $theme;
+  border: 0;
+  color: $white;
+  display: inherit;
+  font-size: 13px;
+  line-height: 30px;
+  margin: 0 auto;
+  width: 120px;
 }
 </style>

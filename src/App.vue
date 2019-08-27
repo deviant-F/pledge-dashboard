@@ -2,7 +2,6 @@
   <div id="app">
     <div id="header"></div>
     <CategoryList />
-    <FilterPanel />
     <ProjectList />
   </div>
 </template>
