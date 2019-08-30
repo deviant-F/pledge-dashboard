@@ -1,6 +1,7 @@
 <template>
   <div class="project">
-    <img v-if="imageUrl" :src="imageUrl" />
+    <img v-if="main_image" :src="main_image.url" />
+    <div v-else class="no-image" />
     <div class="category">{{ categoryName }}</div>
     <div class="info-container">
       <span class="title">{{ name }}</span>
@@ -71,7 +72,7 @@ const Project = createComponent({
       progessPercentage,
       total_pledged: numberWithCommas(total_pledged / 100),
       categoryName: category.name,
-      imageUrl: main_image && main_image.url
+      main_image: main_image
     };
   }
 });
@@ -107,10 +108,12 @@ export default Project;
     border: 1px solid $borderHover;
   }
 
-  img {
+  img,
+  .no-image {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    background: $lighgt-grey;
   }
 
   .info-container {

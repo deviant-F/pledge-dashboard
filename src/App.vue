@@ -2,7 +2,7 @@
   <div id="app">
     <div id="header"></div>
     <CategoryList />
-    <ProjectList />
+    <ProjectView />
   </div>
 </template>
 

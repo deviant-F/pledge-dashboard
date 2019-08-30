@@ -7,8 +7,7 @@ import router from "./router";
 
 import App from "./App.vue";
 import CategoryList from "./components/CategoryList.vue";
-import ProjectList from "./components/ProjectList.vue";
-import FilterPanel from "./components/FilterPanel.vue";
+import ProjectView from "./views/ProjectView.vue";
 
 Vue.config.productionTip = false;
 
@@ -16,8 +15,7 @@ Vue.use(VueCompositionApi);
 Vue.use(hooks);
 
 Vue.component("CategoryList", CategoryList);
-Vue.component("FilterPanel", FilterPanel);
-Vue.component("ProjectList", ProjectList);
+Vue.component("ProjectView", ProjectView);
 
 new Vue({
   el: "#app",

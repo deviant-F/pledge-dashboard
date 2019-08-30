@@ -19,7 +19,7 @@ import {
 import { useActions } from "@u3u/vue-hooks";
 
 import { fetchCategories } from "../services/api";
-import { FEATURED } from "../utils/constants";
+import { FEATURED, ALL } from "../utils/constants";
 
 type Category = {
   name: string;
@@ -38,8 +38,8 @@ const CategoriesList = createComponent({
     const getCategories = async () => {
       const { data } = await fetchCategories();
       categories.value = [
-        { id: "featured", name: "Featured" },
-        { id: "all", name: "All" },
+        { id: FEATURED, name: "Featured" },
+        { id: ALL, name: "All" },
         ...data.categories
       ];
     };

@@ -2,7 +2,7 @@
   <div class="page">
     <FilterPanel />
     <div id="project-list" v-if="projects.length > 0">
-      <project v-for="p in projects" :key="p.id" :project="p" />
+      <ProjectCard v-for="p in projects" :key="p.id" :project="p" />
     </div>
     <button v-if="displayLoadButton" @click="fetchNext()">Load more</button>
   </div>
@@ -20,13 +20,16 @@ import {
 } from "@vue/composition-api";
 import { useRouter } from "@u3u/vue-hooks";
 
-import Project from "./Project.vue";
+import ProjectCard from "../components/ProjectCard.vue";
+import FilterPanel from "../components/FilterPanel.vue";
 import { fetchFeaturedProjects, fetchProjects } from "../services/api";
-import { Tproject } from "../utils/types";
+import { Tproject } from "../utils/project";
+import { FEATURED } from "../utils/constants";
 
-Vue.component("Project", Project);
+Vue.component("ProjectCard", ProjectCard);
+Vue.component("FilterPanel", FilterPanel);
 
-const ProjectList = createComponent({
+const ProjectView = createComponent({
   setup() {
     const { route } = useRouter();
     const projects = ref([] as Array<Tproject>);
@@ -48,7 +51,7 @@ const ProjectList = createComponent({
       async ([catVal, pageVal], [prevCat, prevPage]) => {
         let response;
 
-        if (catVal === "featured") {
+        if (catVal === FEATURED) {
           const { data } = await fetchFeaturedProjects();
           response = data.featured_projects;
         } else {
@@ -75,7 +78,7 @@ const ProjectList = createComponent({
   }
 });
 
-export default ProjectList;
+export default ProjectView;
 </script>
 
 <style lang="scss" scoped>
