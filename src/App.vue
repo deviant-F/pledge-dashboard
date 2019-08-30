@@ -1,10 +1,25 @@
 <template>
   <div id="app">
-    <div id="header"></div>
+    <Header />
     <CategoryList />
     <ProjectView />
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import { createComponent } from "@vue/composition-api";
+
+import CategoryList from "./components/CategoryList.vue";
+import Header from "./components/Header.vue";
+import ProjectView from "./views/ProjectView.vue";
+
+Vue.component("CategoryList", CategoryList);
+Vue.component("Header", Header);
+Vue.component("ProjectView", ProjectView);
+
+export default createComponent({});
+</script>
 
 <style lang="scss">
 @import "reset-css";
@@ -15,9 +30,5 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $textColor;
-}
-
-#header {
-  height: 60px;
 }
 </style>

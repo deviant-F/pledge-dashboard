@@ -31,16 +31,14 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
-import { reactive, ref, computed, createComponent } from "@vue/composition-api";
+import { computed, createComponent } from "@vue/composition-api";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 import { numberWithCommas } from "../utils/functions";
 import { TProject, getProgessPercentage } from "../utils/project";
 
 library.add(faClock);
-
-Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 type Tprops = {
   project: TProject;

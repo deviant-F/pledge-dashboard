@@ -1,21 +1,18 @@
 import Vue from "vue";
 import VueCompositionApi from "@vue/composition-api";
 import hooks from "@u3u/vue-hooks";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import store from "./store/index";
 import router from "./router";
-
 import App from "./App.vue";
-import CategoryList from "./components/CategoryList.vue";
-import ProjectView from "./views/ProjectView.vue";
 
 Vue.config.productionTip = false;
 
 Vue.use(VueCompositionApi);
 Vue.use(hooks);
 
-Vue.component("CategoryList", CategoryList);
-Vue.component("ProjectView", ProjectView);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({
   el: "#app",

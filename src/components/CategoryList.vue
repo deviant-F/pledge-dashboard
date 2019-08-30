@@ -10,12 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  ref,
-  createComponent,
-  onCreated,
-  onMounted
-} from "@vue/composition-api";
+import { ref, createComponent, onMounted } from "@vue/composition-api";
 import { useActions } from "@u3u/vue-hooks";
 
 import { fetchCategories } from "../services/api";

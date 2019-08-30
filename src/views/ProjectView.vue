@@ -10,14 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  computed,
-  createComponent,
-  onMounted,
-  onUpdated,
-  ref,
-  watch
-} from "@vue/composition-api";
+import { computed, createComponent, ref, watch } from "@vue/composition-api";
 import { useRouter, useState } from "@u3u/vue-hooks";
 
 import ProjectCard from "../components/ProjectCard.vue";
