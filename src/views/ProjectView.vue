@@ -18,12 +18,12 @@ import {
   ref,
   watch
 } from "@vue/composition-api";
-import { useRouter } from "@u3u/vue-hooks";
+import { useRouter, useState } from "@u3u/vue-hooks";
 
 import ProjectCard from "../components/ProjectCard.vue";
 import FilterPanel from "../components/FilterPanel.vue";
 import { fetchFeaturedProjects, fetchProjects } from "../services/api";
-import { Tproject } from "../utils/project";
+import { TProject, verify, applyFilters } from "../utils/project";
 import { FEATURED } from "../utils/constants";
 
 Vue.component("ProjectCard", ProjectCard);
@@ -32,14 +32,18 @@ Vue.component("FilterPanel", FilterPanel);
 const ProjectView = createComponent({
   setup() {
     const { route } = useRouter();
-    const projects = ref([] as Array<Tproject>);
+    const state = { ...useState("filters", ["funded", "goal"]) };
+    const projects = ref([] as Array<TProject>);
     const page = ref(1);
     const displayLoadButton = ref(false);
 
     const categoryId = computed(() => route.value.params.id);
-    const validProjects = computed(() => {
-      return projects.value.filter(p => p.funding_goal !== null);
-    });
+    const validProjects = computed(() =>
+      applyFilters(projects.value, {
+        funded: state.funded.value,
+        goal: state.goal.value
+      })
+    );
 
     const fetchNext = () => {
       page.value++;
@@ -61,6 +65,9 @@ const ProjectView = createComponent({
           response = projects;
           displayLoadButton.value = pagination.total_pages > page.value;
         }
+
+        // filter out all invalid projects
+        response = verify(response);
 
         if (pageVal > prevPage) {
           projects.value = projects.value.concat(response);

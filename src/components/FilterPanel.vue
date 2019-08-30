@@ -1,34 +1,82 @@
 <template>
   <div id="filter-panel">
     Filter projects with
-    <select class="filters" name="goal" @change="onChangeGoal" v-model="goal">
-      <option value="0">&lt; $1,000 goal</option>
-      <option value="1">$1,000 to $10,000 goal</option>
-      <option value="2">$10,000 to $100,000 goal</option>
-      <option value="3">$100,000 to $1,000,000 goal</option>
-      <option value="4">&gt; $1,000,000 goal</option>
+    <select class="filters" @change="onChangeGoal">
+      <option
+        v-for="(option, index) in goalOptions"
+        :value="index"
+        :key="index"
+      >
+        {{ option.displayText }}
+      </option>
     </select>
-    and at least <input v-model="funded" name="funded" /> % funded.
+    goal and at least <input :value="funded" @keyup.enter="onChangeFunded" /> %
+    funded.
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { reactive, ref, createComponent } from "@vue/composition-api";
+import { computed, createComponent } from "@vue/composition-api";
+import { useState, useActions } from "@u3u/vue-hooks";
+
+const goalOptions = [
+  {
+    range: [0, -1],
+    displayText: "any"
+  },
+  {
+    range: [1, 10000],
+    displayText: "below 10,000"
+  },
+  {
+    range: [10000, 100000],
+    displayText: "10,000 to 100,000"
+  },
+  {
+    range: [100000, -1],
+    displayText: "above 100,000"
+  }
+];
 
 const FilterPanel = createComponent({
-  setup(props, context) {
-    const funded = ref(50);
-    const goal = ref(2);
-    const onChangeGoal = () => {
-      console.log("clicked filter", goal.value);
-      context.emit("filter", goal.value);
+  setup() {
+    const state = { ...useState("filters", ["funded", "goal"]) };
+    const action = { ...useActions("filters", ["changeFunded", "changeGoal"]) };
+
+    const funded = computed(() => state.funded.value);
+    const goal = computed(() => state.goal.value);
+
+    const onChangeGoal = (e: Event) => {
+      const selectedGoal = goalOptions[e.target.value];
+      action.changeGoal(selectedGoal.range);
+    };
+
+    const onChangeFunded = (e: Event) => {
+      let funded = e.target.value;
+
+      if (funded === "") {
+        funded = 0;
+      }
+
+      if (verifyInput(funded)) {
+        action.changeFunded(parseInt(funded));
+      } else {
+        alert("Please input a number between 0 to 100");
+      }
+    };
+
+    const verifyInput = (input: string) => {
+      const inputInNum = parseInt(input);
+      return !(isNaN(inputInNum) || inputInNum < 0 || inputInNum > 100);
     };
 
     return {
       funded,
       goal,
-      onChangeGoal
+      goalOptions,
+      onChangeGoal,
+      onChangeFunded
     };
   }
 });

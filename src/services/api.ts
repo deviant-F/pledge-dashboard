@@ -12,13 +12,12 @@ export const fetchFeaturedProjects = async () =>
 
 export const fetchProjects = async (
   category: string | number,
-  page: string | number,
-  filter: string
+  page: string | number
 ) => {
   const query = {
     params: {
       category_id: category,
-      per_page: 10,
+      per_page: 20,
       page
     }
   };

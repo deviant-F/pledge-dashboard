@@ -10,7 +10,8 @@
     </div>
     <div class="info-footer">
       <div class="progress">
-        <span class="raised">${{ total_pledged }}</span> raised
+        <span class="raised">${{ total_pledged }}</span> of
+        {{ funding_goal }} raised
         <span class="raised-percentage">{{ progessPercentage }}%</span>
         <div class="progress-bar">
           <span
@@ -35,14 +36,14 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { numberWithCommas } from "../utils/functions";
-import { Tproject } from "../utils/types";
+import { TProject, getProgessPercentage } from "../utils/project";
 
 library.add(faClock);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 type Tprops = {
-  project: Tproject;
+  project: TProject;
 };
 
 const Project = createComponent({
@@ -59,10 +60,9 @@ const Project = createComponent({
       total_pledged
     } = project;
     const dayLeft = computed(() => moment(end_time * 1000).fromNow(true));
-    const progessPercentage = computed(() => {
-      const percentage = (total_pledged / funding_goal) * 100;
-      return Math.round(percentage);
-    });
+    const progessPercentage = computed(() =>
+      getProgessPercentage({ total_pledged, funding_goal })
+    );
 
     return {
       name,
@@ -70,6 +70,7 @@ const Project = createComponent({
       dayLeft,
       creator: creator.name,
       progessPercentage,
+      funding_goal: numberWithCommas(funding_goal / 100),
       total_pledged: numberWithCommas(total_pledged / 100),
       categoryName: category.name,
       main_image: main_image
