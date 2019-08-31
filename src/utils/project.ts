@@ -33,7 +33,7 @@ export const applyFilters = (
 ) =>
   projects.filter(p => {
     const tempState =
-      getProgessPercentage(p) > funded && p.funding_goal / 100 >= goal[0];
+      getProgessPercentage(p) >= funded && p.funding_goal / 100 >= goal[0];
     if (goal[1] < 0) {
       return tempState;
     }

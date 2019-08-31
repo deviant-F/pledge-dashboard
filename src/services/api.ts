@@ -1,4 +1,6 @@
 import axios from "axios";
+import { TFilter } from "../utils/project";
+import getNotification from "./getNotification";
 
 const baseDomain = "https://pcbe-47g2sf.pledgecamp.com";
 const baseURL = `${baseDomain}/api`;
@@ -23,3 +25,10 @@ export const fetchProjects = async (
   };
   return axiosInstance.get("/projects/filter/recently_added/", query);
 };
+
+export const fetchNotification = async (filter: TFilter) =>
+  new Promise(resolve => {
+    setTimeout(function() {
+      resolve(getNotification(filter));
+    }, 300);
+  });

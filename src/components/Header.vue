@@ -3,13 +3,13 @@
     <div id="notify" @click="onClick">
       <font-awesome-icon icon="bell" pull="right" size="lg" />
     </div>
-    <div class="notify-list" :class="{ hidden: !isActive }">
+    <div class="notify-list" :class="{ hidden: isHidden }">
       <span class="trangle" />
       <ul>
-        <li>project xxx update, project xxx update</li>
-        <li>Hello</li>
-        <li>Hello</li>
-        <li>Hello</li>
+        <li></li>
+        <li>creator just launch a new cat project with goal xxx</li>
+        <li></li>
+        <li>xx complete a new milestone of project xxx</li>
         <li>Hello</li>
         <li>Hello</li>
         <li>Hello</li>
@@ -22,7 +22,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { createComponent, ref } from "@vue/composition-api";
+import {
+  createComponent,
+  onMounted,
+  onUnmounted,
+  ref
+} from "@vue/composition-api";
+import { useActions } from "@u3u/vue-hooks";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
@@ -30,14 +36,27 @@ library.add(faBell);
 
 const Header = createComponent({
   setup() {
-    const isActive = ref(false);
+    const state = { ...useGetters("notifications", ["notifications"]) };
+    const actions = { ...useActions("notifications", ["fetchNotification"]) };
+    const isHidden = ref(true);
+    let polling;
 
     const onClick = () => {
-      isActive.value = !isActive.value;
+      isHidden.value = !isHidden.value;
     };
 
+    onMounted(() => {
+      polling = setInterval(() => {
+        actions.fetchNotification();
+      }, 10000);
+    });
+
+    onUnmounted(() => {
+      clearInterval(polling);
+    });
+
     return {
-      isActive,
+      isHidden,
       onClick
     };
   }
@@ -81,12 +100,12 @@ export default Header;
     z-index: 10;
 
     &.hidden {
-      opacity: 0;
+      display: none;
     }
 
     ul {
       max-height: 292px;
-      overflow-y: scroll;
+      // overflow-y: scroll;
     }
 
     li {

@@ -1,12 +1,20 @@
 import Vuex, { MutationTree, ActionTree } from "vuex";
 import { TFilter } from "../../utils/project";
 
-const state = {
+export type TFilterState = TFilter;
+
+const defaultState: TFilter = {
   funded: 0,
   goal: [0, -1]
 };
 
-const actions: ActionTree<TFilter, TFilter> = {
+const state = { ...defaultState };
+
+const actions: ActionTree<TFilter, any> = {
+  resetFilter: ({ commit }) => {
+    commit("resetFilter");
+  },
+
   changeFunded: ({ commit }, percentage: number) => {
     commit("changeFunded", percentage);
   },
@@ -17,6 +25,10 @@ const actions: ActionTree<TFilter, TFilter> = {
 };
 
 const mutations: MutationTree<TFilter> = {
+  resetFilter: state => {
+    state = { ...defaultState };
+  },
+
   changeFunded(state, percentage: number) {
     state.funded = percentage;
   },
