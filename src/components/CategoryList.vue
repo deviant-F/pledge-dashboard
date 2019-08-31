@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { ref, createComponent, onMounted } from "@vue/composition-api";
+import { ref, createComponent } from "@vue/composition-api";
 import { useActions } from "@u3u/vue-hooks";
 
 import { fetchCategories } from "../services/api";
@@ -29,10 +29,6 @@ const CategoriesList = createComponent({
   setup() {
     const categories = ref([] as Array<Category>);
 
-    onMounted(() => {
-      getCategories();
-    });
-
     const getCategories = async () => {
       const { data } = await fetchCategories();
       categories.value = [
@@ -41,6 +37,8 @@ const CategoriesList = createComponent({
         ...data.categories
       ];
     };
+
+    getCategories();
 
     return {
       categories,

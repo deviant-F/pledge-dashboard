@@ -21,12 +21,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-  createComponent,
-  onMounted,
-  onUnmounted,
-  ref
-} from "@vue/composition-api";
+import { createComponent, onUnmounted, ref } from "@vue/composition-api";
 import { useActions, useGetters } from "@u3u/vue-hooks";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
