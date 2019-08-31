@@ -1,8 +1,14 @@
 <template>
   <div class="page">
     <FilterPanel />
-    <div id="project-list" v-if="projects.length > 0">
+    <div class="loading" v-if="isLoading">
+      <font-awesome-icon icon="spinner" size="2x" spin />
+    </div>
+    <div id="project-list" v-else-if="projects.length > 0">
       <ProjectCard v-for="p in projects" :key="p.id" :project="p" />
+    </div>
+    <div id="oops" v-else>
+      Oops! we don't have projects with your filters. Please try again.
     </div>
     <button v-if="displayLoadButton" @click="fetchNext()">Load more</button>
   </div>
@@ -11,13 +17,17 @@
 <script lang="ts">
 import Vue from "vue";
 import { computed, createComponent, ref, watch } from "@vue/composition-api";
-import { useRouter, useState } from "@u3u/vue-hooks";
+import { useRouter, useState, useActions } from "@u3u/vue-hooks";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import ProjectCard from "../components/ProjectCard.vue";
 import FilterPanel from "../components/FilterPanel.vue";
 import { fetchFeaturedProjects, fetchProjects } from "../services/api";
 import { TProject, verify, applyFilters } from "../utils/project";
 import { FEATURED } from "../utils/constants";
+
+library.add(faSpinner);
 
 Vue.component("ProjectCard", ProjectCard);
 Vue.component("FilterPanel", FilterPanel);
@@ -26,6 +36,8 @@ const ProjectView = createComponent({
   setup() {
     const { route } = useRouter();
     const state = { ...useState("filters", ["funded", "goal"]) };
+    const actions = { ...useActions("filters", ["resetFilter"]) };
+    const isLoading = ref(true);
     const projects = ref([] as Array<TProject>);
     const page = ref(1);
     const displayLoadButton = ref(false);
@@ -48,6 +60,9 @@ const ProjectView = createComponent({
       async ([catVal, pageVal], [prevCat, prevPage]) => {
         let response;
 
+        isLoading.value = true;
+        actions.resetFilter();
+
         if (catVal === FEATURED) {
           const { data } = await fetchFeaturedProjects();
           response = data.featured_projects;
@@ -67,11 +82,13 @@ const ProjectView = createComponent({
         } else {
           projects.value = response;
         }
+        isLoading.value = false;
       }
     );
 
     return {
       projects: validProjects,
+      isLoading,
       displayLoadButton,
       fetchNext
     };
@@ -88,10 +105,17 @@ export default ProjectView;
   margin: 24px auto;
   width: 780px;
 }
+
 #project-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+#oops,
+.loading {
+  text-align: center;
+  padding: 40px 0;
 }
 
 button {
