@@ -1,7 +1,10 @@
 <template>
   <ul v-if="categories.length > 0">
     <li v-for="c in categories" :key="c.id" :cat="c">
-      <router-link :to="{ name: 'category', params: { id: c.id } }">
+      <router-link
+        :to="{ name: 'explore', params: { name: c.name, id: c.id } }"
+        active-class="active"
+      >
         {{ c.name }}
       </router-link>
     </li>
@@ -33,8 +36,8 @@ const CategoriesList = createComponent({
     const getCategories = async () => {
       const { data } = await fetchCategories();
       categories.value = [
-        { id: FEATURED, name: "Featured" },
-        { id: ALL, name: "All" },
+        { name: FEATURED },
+        { name: ALL },
         ...data.categories
       ];
     };
@@ -72,6 +75,10 @@ ul {
       &:hover {
         color: $theme;
         transition: color 0.5s ease-in-out;
+      }
+
+      &.active {
+        color: $theme;
       }
     }
   }

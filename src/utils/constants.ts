@@ -1,2 +1,2 @@
-export const FEATURED = "featured";
-export const ALL = "all";
+export const FEATURED = "Featured";
+export const ALL = "All";

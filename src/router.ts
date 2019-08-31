@@ -8,12 +8,12 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/category/featured"
+      redirect: "/explore/All"
     },
     {
-      path: "/category/:id",
-      name: "category",
-      component: () => import("./App.vue")
+      path: "/explore/:name/:id?",
+      name: "explore",
+      component: () => import("./views/ProjectView.vue")
     }
   ]
 });

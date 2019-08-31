@@ -1,5 +1,6 @@
 <template>
   <div id="header">
+    <img src="../assets/logo.png" />
     <div id="notify" @click="toggleNotification">
       <font-awesome-icon icon="bell" size="lg" />
     </div>
@@ -77,14 +78,17 @@ export default Header;
 #header {
   height: 24px;
   padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    height: 24px;
+    width: 24px;
+  }
 
   #notify {
     padding: 5px;
     cursor: pointer;
-    height: 15px;
-    width: 15px;
-    position: absolute;
-    right: 24px;
   }
 
   .trangle {
