@@ -40,25 +40,18 @@ const Header = createComponent({
     };
     const actions = { ...useActions("notifications", ["fetchNotification"]) };
     const isHidden = ref(true);
-    let polling;
 
     const toggleNotification = () => {
       isHidden.value = !isHidden.value;
     };
 
-    const onClickMessage = project_id => {
+    const onClickMessage = (project_id: number) => {
       alert(`go to project/${project_id}`);
     };
 
-    onMounted(() => {
-      polling = setInterval(() => {
-        actions.fetchNotification();
-      }, 3000);
-    });
-
-    onUnmounted(() => {
-      clearInterval(polling);
-    });
+    setInterval(() => {
+      actions.fetchNotification();
+    }, 3000);
 
     return {
       isHidden,

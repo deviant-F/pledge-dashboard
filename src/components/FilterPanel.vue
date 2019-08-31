@@ -10,8 +10,8 @@
         {{ option.displayText }}
       </option>
     </select>
-    goal and at least <input :value="funded" @keyup.enter="onChangeFunded" /> %
-    funded.
+    goal and at least
+    <input :value="funded" @keyup.enter="onChangeFunded" /> % funded.
   </div>
 </template>
 
@@ -48,15 +48,16 @@ const FilterPanel = createComponent({
     const goal = computed(() => state.goal.value);
 
     const onChangeGoal = (e: Event) => {
-      const selectedGoal = goalOptions[e.target.value];
+      const selectedIdx = (e.target as HTMLSelectElement).value;
+      const selectedGoal = goalOptions[selectedIdx as number];
       action.changeGoal(selectedGoal.range);
     };
 
     const onChangeFunded = (e: Event) => {
-      let funded = e.target.value;
+      let funded = (e.target as HTMLInputElement).value;
 
       if (funded === "") {
-        funded = 0;
+        funded = "0";
       }
 
       if (verifyInput(funded)) {

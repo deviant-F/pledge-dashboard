@@ -58,9 +58,7 @@ const Project = createComponent({
       total_pledged
     } = project;
     const dayLeft = computed(() => moment(end_time * 1000).fromNow(true));
-    const progessPercentage = computed(() =>
-      getProgessPercentage({ total_pledged, funding_goal })
-    );
+    const progessPercentage = computed(() => getProgessPercentage(project));
 
     return {
       name,

@@ -67,7 +67,7 @@ const ProjectView = createComponent({
       page.value++;
     };
 
-    const fetchApi = async (catVal, pageVal) => {
+    const fetchApi = async (catVal: string, pageVal: number) => {
       let response;
       isLoading.value = true;
       actions.resetFilter();
@@ -78,7 +78,7 @@ const ProjectView = createComponent({
       } else {
         const {
           data: { pagination, projects }
-        } = await fetchProjects(catVal, pageVal, "");
+        } = await fetchProjects(catVal, pageVal);
         response = projects;
         displayLoadButton.value = pagination.total_pages > page.value;
       }

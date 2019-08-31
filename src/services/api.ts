@@ -12,10 +12,7 @@ export const fetchCategories = async () => axiosInstance.get("/categories");
 export const fetchFeaturedProjects = async () =>
   axiosInstance.get("/projects/featured/");
 
-export const fetchProjects = async (
-  category: string | number,
-  page: string | number
-) => {
+export const fetchProjects = async (category: string, page: number) => {
   const query = {
     params: {
       category_id: category,
