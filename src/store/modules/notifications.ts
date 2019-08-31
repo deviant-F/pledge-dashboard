@@ -1,10 +1,18 @@
 import Vuex, { GetterTree, MutationTree, ActionTree } from "vuex";
 import { TRootState } from "../index";
 import { fetchNotification } from "../../services/api";
+import { numberWithCommas } from "../../utils/functions";
+import { MessageType } from "../../services/getNotification";
 
 type TMessage = {
-  link: string;
-  message: string;
+  message_type: keyof typeof MessageType;
+  project_id: number;
+  funding_goal: number;
+  project_name: string;
+  funded_percentage?: number;
+  creator?: string;
+  milestone?: string;
+  update_name?: string;
 };
 
 export type TNotiState = {
@@ -23,8 +31,30 @@ const state = {
 };
 
 const getters: GetterTree<TNotiState, TRootState> = {
-  getMessageList: () => {
-    debugger;
+  getMessageList: state => {
+    return state.notifications
+      .slice(-10)
+      .map(
+        ({
+          message_type,
+          funding_goal,
+          project_name,
+          funded_percentage = 0,
+          creator = "",
+          milestone = "",
+          update_name = ""
+        }) => {
+          const messageBase = MessageBase[message_type];
+          debugger;
+          return messageBase
+            .replace("{{creator}}", creator)
+            .replace("{{project}}", project_name)
+            .replace("{{funded}}", funded_percentage.toString())
+            .replace("{{milestone}}", milestone)
+            .replace("{{update}}", update_name)
+            .replace("{{goal}}", numberWithCommas(funding_goal / 100));
+        }
+      );
   }
 };
 

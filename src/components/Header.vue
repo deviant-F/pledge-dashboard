@@ -1,20 +1,12 @@
 <template>
   <div id="header">
     <div id="notify" @click="onClick">
-      <font-awesome-icon icon="bell" pull="right" size="lg" />
+      <font-awesome-icon icon="bell" size="lg" />
     </div>
     <div class="notify-list" :class="{ hidden: isHidden }">
       <span class="trangle" />
       <ul>
-        <li></li>
-        <li>creator just launch a new cat project with goal xxx</li>
-        <li></li>
-        <li>xx complete a new milestone of project xxx</li>
-        <li>Hello</li>
-        <li>Hello</li>
-        <li>Hello</li>
-        <li>Hello</li>
-        <li>Hello</li>
+        <li v-for="(m, i) in messageList" :key="i">{{ m }}</li>
       </ul>
     </div>
   </div>
@@ -28,7 +20,7 @@ import {
   onUnmounted,
   ref
 } from "@vue/composition-api";
-import { useActions } from "@u3u/vue-hooks";
+import { useActions, useGetters } from "@u3u/vue-hooks";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,7 +28,9 @@ library.add(faBell);
 
 const Header = createComponent({
   setup() {
-    const state = { ...useGetters("notifications", ["notifications"]) };
+    const getters = {
+      ...useGetters("notifications", { messageList: "getMessageList" })
+    };
     const actions = { ...useActions("notifications", ["fetchNotification"]) };
     const isHidden = ref(true);
     let polling;
@@ -48,7 +42,7 @@ const Header = createComponent({
     onMounted(() => {
       polling = setInterval(() => {
         actions.fetchNotification();
-      }, 10000);
+      }, 3000);
     });
 
     onUnmounted(() => {
@@ -57,7 +51,8 @@ const Header = createComponent({
 
     return {
       isHidden,
-      onClick
+      onClick,
+      ...getters
     };
   }
 });
@@ -75,11 +70,15 @@ export default Header;
   #notify {
     padding: 5px;
     cursor: pointer;
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    right: 24px;
   }
 
   .trangle {
     position: absolute;
-    margin-top: -9px;
+    top: -9px;
     right: 20px;
     height: 15px;
     width: 15px;
@@ -97,20 +96,24 @@ export default Header;
     right: 0;
     transition: all 0.5s ease;
     width: 280px;
+    min-height: 100px;
     z-index: 10;
+    background-color: $white;
 
     &.hidden {
       display: none;
     }
 
     ul {
-      max-height: 292px;
-      // overflow-y: scroll;
+      max-height: 316px;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow-y: scroll;
     }
 
     li {
       padding: 15px;
-      background-color: $white;
+
       border-bottom: 1px solid $border;
     }
   }
