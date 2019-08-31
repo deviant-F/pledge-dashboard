@@ -39,15 +39,15 @@ yarn run test:unit
 
 ## Implementation Approach 🚀
 - [Routing] Use `Vue-router` for handling single page navigation. 
---`/explore/:name/:id?`: Projects are categorized by category. `name` and `id` referred to `category.id` and `categor.name`.
--- API `/projects/filter/recently_added/` with query `category_id={id}&page={page}` is used to fetch projects under a certain category. Pagination is supported with showing an orange "Load more" button.
--- API `/projects/featured/` is used to fetch featured projects. Unfortunately, it doesn't return any projects at this moment. It is expected to have an empty message showing in the screen.
+  -`/explore/:name/:id?`: Projects are categorized by category. `name` and `id` referred to `category.id` and `categor.name`.
+  - API `/projects/filter/recently_added/` with query `category_id={id}&page={page}` is used to fetch projects under a certain category. Pagination is supported with showing an orange "Load more" button.
+  - API `/projects/featured/` is used to fetch featured projects. Unfortunately, it doesn't return any projects at this moment. It is expected to have an empty message showing in the screen.
 
 - [Filtering] Projects can be filtered by funded percentage and funding goal.
--- Due to the API limitation, filter process is on client-side.
--- Filter status is stored with Vuex. The reason behind is the filter status needs to shared with multiple components: `ProductView`, `FilterPanel`, and also `NotificationList`. 
--- Filters can be changed on the filter panel. Every change event will trigger an action to update filter states.
--- `ProductView` and `NotificationList` are listening to the change with filter.
+  - Due to the API limitation, filter process is on client-side.
+  - Filter status is stored with Vuex. The reason behind is the filter status needs to shared with multiple components: `ProductView`, `FilterPanel`, and also `NotificationList`. 
+  - Filters can be changed on the filter panel. Every change event will trigger an action to update filter states.
+  - `ProductView` and `NotificationList` are listening to the change with filter.
 
 - [Notification] 
 
