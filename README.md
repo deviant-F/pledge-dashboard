@@ -20,6 +20,8 @@ yarn install
 ```
 # Compiles and hot-reloads for development
 yarn run serve
+
+# Open up your broswer and visit http://localhost:8080/
 ```
 ```
 # Compiles and minifies for production
