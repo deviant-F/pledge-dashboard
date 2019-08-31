@@ -1,12 +1,18 @@
 <template>
   <div id="header">
-    <div id="notify" @click="onClick">
+    <div id="notify" @click="toggleNotification">
       <font-awesome-icon icon="bell" size="lg" />
     </div>
     <div class="notify-list" :class="{ hidden: isHidden }">
       <span class="trangle" />
       <ul>
-        <li v-for="(m, i) in messageList" :key="i">{{ m }}</li>
+        <li
+          v-for="(m, i) in messageList"
+          :key="i"
+          @click="onClickMessage(m.project_id)"
+        >
+          {{ m.message }}
+        </li>
       </ul>
     </div>
   </div>
@@ -35,8 +41,12 @@ const Header = createComponent({
     const isHidden = ref(true);
     let polling;
 
-    const onClick = () => {
+    const toggleNotification = () => {
       isHidden.value = !isHidden.value;
+    };
+
+    const onClickMessage = project_id => {
+      alert(`go to project/${project_id}`);
     };
 
     onMounted(() => {
@@ -51,7 +61,8 @@ const Header = createComponent({
 
     return {
       isHidden,
-      onClick,
+      toggleNotification,
+      onClickMessage,
       ...getters
     };
   }
@@ -113,7 +124,7 @@ export default Header;
 
     li {
       padding: 15px;
-
+      cursor: pointer;
       border-bottom: 1px solid $border;
     }
   }

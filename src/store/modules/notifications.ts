@@ -38,6 +38,7 @@ const getters: GetterTree<TNotiState, TRootState> = {
         ({
           message_type,
           funding_goal,
+          project_id,
           project_name,
           funded_percentage = 0,
           creator = "",
@@ -45,14 +46,17 @@ const getters: GetterTree<TNotiState, TRootState> = {
           update_name = ""
         }) => {
           const messageBase = MessageBase[message_type];
-          debugger;
-          return messageBase
+          const actualMessage = messageBase
             .replace("{{creator}}", creator)
             .replace("{{project}}", project_name)
             .replace("{{funded}}", funded_percentage.toString())
             .replace("{{milestone}}", milestone)
             .replace("{{update}}", update_name)
             .replace("{{goal}}", numberWithCommas(funding_goal / 100));
+          return {
+            project_id,
+            message: actualMessage
+          };
         }
       );
   }
