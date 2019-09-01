@@ -1,4 +1,5 @@
-// It Simulate how backend should filter the notification message;
+// A dummy message generator to simulate new projects come or
+// some existing projects having updates.
 
 import Faker from "faker";
 import { TFilter } from "../utils/project";
@@ -59,6 +60,7 @@ const generateMessage = () => {
   }
 };
 
+// Check the message if it matches the filter criteria
 const filterMessage = (
   { message_type, funding_goal, funded_percentage }: TMessageBase,
   { goal, funded }: TFilter

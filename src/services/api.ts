@@ -23,6 +23,7 @@ export const fetchProjects = async (category: string, page: number) => {
   return axiosInstance.get("/projects/filter/recently_added/", query);
 };
 
+// use async function to simulate if there is an API to fetch new notifications
 export const fetchNotification = async (filter: TFilter) =>
   new Promise(resolve => {
     setTimeout(function() {
