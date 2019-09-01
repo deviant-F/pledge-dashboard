@@ -9,7 +9,7 @@
 import Vue from "vue";
 import { createComponent } from "@vue/composition-api";
 
-import Header from "./components/Header.vue";
+import Header from "../components/Header.vue";
 
 Vue.component("Header", Header);
 
@@ -18,7 +18,7 @@ export default createComponent({});
 
 <style lang="scss">
 @import "reset-css";
-@import "themes/colors.scss";
+@import "../themes/colors.scss";
 
 body {
   font-family: "Lato", sans-serif;

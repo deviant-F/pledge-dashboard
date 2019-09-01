@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <img src="../assets/logo.png" />
+    <a href="/"><img src="../assets/logo.png"/></a>
     <div id="notify" @click="toggleNotification">
       <font-awesome-icon icon="bell" size="lg" />
     </div>

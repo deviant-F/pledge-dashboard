@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import store from "./store/index";
 import router from "./router";
-import App from "./App.vue";
+import App from "./views/App.vue";
 
 Vue.config.productionTip = false;
 
