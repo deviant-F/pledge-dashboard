@@ -82,7 +82,7 @@ yarn run test:unit
 
 ### Routing
 - Use `Vue-router` for handling single page navigation. 
-  -`/explore/:name/:id?`: Projects are categorized by category. `name` and `id` referred to `category.id` and `categor.name`.
+  - `/explore/:name/:id?`: Projects are categorized by category. `name` and `id` referred to `category.id` and `categor.name`.
   - API `/projects/filter/recently_added/` with query `category_id={id}&page={page}` is used to fetch projects under a certain category. Pagination is supported with showing an orange "Load more" button.
   - API `/projects/featured/` is used to fetch featured projects. Unfortunately, it doesn't return any projects at this moment. It is expected to have an empty message showing in the screen.
 
@@ -95,12 +95,12 @@ yarn run test:unit
 
 ### Notification
 - Users will be notify based on the filter they set.
- - `Header` component fetches for notification every 3 seconds, by triggering a `fetchNotification` action.
- - Inside `fetchNotification` action, it takes `filters` from the root state and passed to the async function `fetchNotification`.
- - A new message is generated with a dummy generator function, then is filtered based on the selected criterias. 
- - If the message matches, it will be added into the store (`notifications` defined in notification vuex module)
- - `Header` component listens to the changes in notification state. Once there is a new message, it will be added to `notify-list` and display to the user.
- - `notify-list` will only show the latest 10 messages.
+  - `Header` component fetches for notification every 3 seconds, by triggering a `fetchNotification` action.
+  - Inside `fetchNotification` action, it takes `filters` from the root state and passed to the async function `fetchNotification`.
+  - A new message is generated with a dummy generator function, then is filtered based on the selected criterias. 
+  - If the message matches, it will be added into the store (`notifications` defined in notification vuex module)
+  - `Header` component listens to the changes in notification state. Once there is a new message, it will be added to `notify-list` and display to the user.
+  - `notify-list` will only show the latest 10 messages.
  
 ## 🧠 Some Thoughts
 - Pledge-dashboard is my first Vue project. As a experimental project, I decided to use `Vue` + `Typescript`, together with `@vue/composition-api` for development. It is a good opportunity for me to familarize the coding style with `Typesciprt` and be prepare of the coming `Vue3.0`. Composition Api provides a similar coding style to React hooks. It is very nice for ones with React background like me.
