@@ -1,10 +1,11 @@
 # Pledge-dashboard 
 A simple SPA dashboard written in Vue.js & Typescript. Users are allowed to filter projects with some criteria and they will get notified once there are new projects coming in or changes occur in that match.
 
-## Tech stack 🛠
+## 🛠Tech stack 
 Library | Version | Description
 ------------ | ------------- | -------------
 vue | ^2.6.10 | A basic library for building interface
+vue-cli | 3.11.0 | Vue project starter
 vue-router |  ^3.1.2 | Handles navigation between pages
 vuex | ^3.1.1 | For overall state mangement
 Typscript | ^3.4.3 | A superset of JavaScript enables type checking
@@ -12,7 +13,7 @@ axios | ^0.19.0 | Handles HTTP requests
 @vue/composition-api | ^0.1.0 | Provides composition api from vue 3.0 for vue 2.x
 @u3u/vue-hooks | ^2.0.1 | Provides hooks based on composition api for using functional-based components in advance
 
-## Build commands 🔧
+## 🔧Build commands 
 ```
 # Project setup
 yarn install
@@ -35,9 +36,13 @@ yarn run lint
 # Run unit tests
 yarn run test:unit
 ```
-## File Structure🗂️
+## 🗂️File Structure
+```
+src ----
+```
 
-## Implementation Approach 🚀
+## 🚀Implementation Approach 
+
 ### Routing
 - Use `Vue-router` for handling single page navigation. 
   -`/explore/:name/:id?`: Projects are categorized by category. `name` and `id` referred to `category.id` and `categor.name`.
@@ -60,7 +65,7 @@ yarn run test:unit
  - `Header` component listens to the changes in notification state. Once there is a new message, it will be added to `notify-list` and display to the user.
  - `notify-list` will only show the latest 10 messages.
  
-## Some Thoughts 🧠
+## 🧠Some Thoughts
 - Pledge-dashboard is my first Vue project. As a experimental project, I decided to use `Vue` + `Typescript`, together with `@vue/composition-api` for development. It is a good opportunity for me to familarize the coding style with `Typesciprt` and be prepare of the coming `Vue3.0`. Composition Api provides a similar coding style to React hooks. It is very nice for ones with React background like me.
 
 -`Vue-router` & `Vuex` also needed in the app. However, both libraries haven't not yet officially support Composition Api. we need to write our own hook for connecting our functional component with vuex and vue-router. With a 3rd party library `@u3u/vue-hooks`, things are more eariler. It provides a number of useful vue hooks of `date`, `window size`, `vue-router` & `vuex(store, state, getters, mutations, and actions)`.
